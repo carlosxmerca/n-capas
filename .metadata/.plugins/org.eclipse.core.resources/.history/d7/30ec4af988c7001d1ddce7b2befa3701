@@ -1,0 +1,13 @@
+package Main;
+
+public class Exc02 {
+
+	public static void main(String[] args) {
+		// Hash sets
+		System.out.println("--------- HashSets ---------");
+		Integers[] numbers01 = new Integer[] {1, 5, 98, 5, 76, 4, 3};
+		
+		
+	}
+
+}

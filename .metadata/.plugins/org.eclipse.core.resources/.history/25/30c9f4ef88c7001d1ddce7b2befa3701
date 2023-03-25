@@ -1,0 +1,11 @@
+package Main;
+
+public class Exc02 {
+
+	public static void main(String[] args) {
+		// Hash sets
+		System.out.println("--------- HashSets ---------");
+		
+	}
+
+}

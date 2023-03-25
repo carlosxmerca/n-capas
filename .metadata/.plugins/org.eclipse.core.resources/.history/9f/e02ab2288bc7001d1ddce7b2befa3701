@@ -1,0 +1,22 @@
+package Main;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Ex03 {
+
+	public static void main(String[] args) {
+		
+		// Maps
+		System.out.println("--------- Maps ---------");
+		Map<Character, String> map = new HashMap<>();
+		
+		map.put('a', "Valor 1");
+		map.put('b', "Valor 2");
+		map.put('c', "Valor 3");
+		map.put('d', "Valor 4");
+		
+		
+	}
+
+}

@@ -1,0 +1,27 @@
+package Main;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
+public class Exc02 {
+
+	public static void main(String[] args) {
+		// Hash sets
+		System.out.println("--------- HashSets ---------");
+		Integer[] numbers01 = new Integer[] {1, 5, 98, 5, 76, 4, 3, 100, 987, 264, 32, 7, 1, 5, 98, 5, 76, 4};
+		Integer[] numbers02 = new Integer[] {987, 264, 32, 7, 1, 5, 98, 5, 76, 4, 1, 5, 98, 5, 76, 4, 3, 100, };
+		
+		Set<Integer> set01 = new HashSet<>();
+		Collections.addAll(set01, numbers01);
+		
+		System.out.println(set01);
+		
+		Set<Integer> set02 = new TreeSet<>();
+		Collections.addAll(set02, numbers02);
+		
+		System.out.println(set02);
+	}
+
+}

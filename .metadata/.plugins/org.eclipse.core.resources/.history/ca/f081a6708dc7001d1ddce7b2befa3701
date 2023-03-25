@@ -1,0 +1,26 @@
+package Main;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Ex04 {
+
+	public static void main(String[] args) {
+		
+		// Streams
+		System.out.println("--------- Streams ---------");
+		List<Integer> numbers = new ArrayList<>();
+		
+		Collections.addAll(numbers, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+		
+		System.out.println(numbers);
+		
+		System.out.println("--------- For each ---------");
+		numbers.stream()
+		.forEach((number) -> {
+			System.out.println(number)
+		});
+	}
+
+}
