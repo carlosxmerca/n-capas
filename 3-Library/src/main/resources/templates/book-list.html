@@ -67,6 +67,7 @@
         <tr>
           <th> ISBN </th>
           <th> Title </th>
+          <th> Update book </th>
         </tr>
       </thead>
       <tbody>
@@ -74,6 +75,7 @@
           <tr>
             <td> {{ isbn }} </td>
             <td> {{ title }} </td>
+            <td><a href="/book/{{ isbn }}">Update</a></td>
           </tr>
 		 {{ /books }}
       </tbody>

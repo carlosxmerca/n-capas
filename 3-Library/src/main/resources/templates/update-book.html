@@ -50,17 +50,6 @@
       flex-direction: column;
       gap: 0.5rem;
     }
-    
-    main form.error {
-		border: solid 2px crimson;
-	}
-	
-	.err {
-		color: white;
-		background-color: crimson;
-		padding: 0.5rem;
-		border-radius: 0.3rem;
-	}
  
     main form label {
       display: flex;
@@ -85,33 +74,23 @@
   <main>
     <h1> Library (<a href="/library/all"> Ver Libros </a>) </h1>
     <h2> {{ time }} </h2>
-    <form class="{{#hasErrors}}error{{/hasErrors}}" action="/save" method="POST">
+    <form action="/update" method="POST">
       <label for="isbn-field">
         ISBN:
-        <input type="text" name="isbn" id="isbn-field" required>
-        {{#isbn}}
-        	<p class="err">{{ . }}</p>
-        {{/isbn}}
+        <input type="text" name="isbn" id="isbn-field" value="{{ isbn }}" readonly>
       </label>
-
  
       <label for="title-field">
         Title:
-        <input type="text" name="title" id="title-field" required>
-        {{#title}}
-        	<p class="err">{{ . }}</p>
-        {{/title}}
+        <input type="text" name="title" id="title-field" value="{{ bookTitle }}" required>
       </label>
  
       <label for="owner-field">
         Owner:
         <input type="text" name="owner" id="owner-field" required>
-         {{#owner}}
-        	<p class="err">{{ . }}</p>
-        {{/owner}}
       </label>
  
-      <input type="submit" value="Register">
+      <input type="submit" value="Update">
     </form>
   </main>
     
