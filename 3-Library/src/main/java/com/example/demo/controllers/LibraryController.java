@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.models.entities.*;
+import com.example.demo.service.BookService;
+import com.example.demo.utils.RequestErrorHandler;
 
 import jakarta.validation.Valid;
 
@@ -25,17 +28,10 @@ import com.example.demo.models.dtos.*;
 @Controller
 public class LibraryController {
 	
-	private static List<Book> library = new ArrayList<>();
-    
-    static {
-        library.add(new Book("0261102303", "Lord of the Rings"));
-        library.add(new Book("0007441428", "Game of Thrones"));
-        library.add(new Book("0747581088", "Harry Potter and the Half-Blood Prince"));
-        library.add(new Book("1401248195", "Watchmen"));
-        library.add(new Book("030788743X", "Ready player one"));
-        library.add(new Book("843760494X", "Cien Años de Soledad"));
-        library.add(new Book("0553804367", "A Briefer History of Time!!"));
-    }
+	@Autowired
+	private BookService bookService;
+	@Autowired
+	private RequestErrorHandler errorHandler;
         
     @PostMapping("/save")
     public String saveBook(@ModelAttribute @Valid SaveBookDTO bookInfo,
@@ -43,8 +39,6 @@ public class LibraryController {
     	
     	String time = Calendar.getInstance().getTime().toString();
     	model.addAttribute("time", time);
-    	
-    	HashMap<String, List<String>> errorMap = new HashMap<>();
     	
     	if (validations.hasErrors()) {
     		System.out.println("Hay errores");
@@ -58,19 +52,7 @@ public class LibraryController {
     		if (!errors.isEmpty())
     			model.addAttribute("hasErrors", true);
     		
-    		// Map errors to display in UI
-    		validations.getFieldErrors().stream().forEach(error -> {
-    			String key = error.getField();
-    			
-    			List<String> itemErrors = errorMap.get(key);
-    			if (itemErrors == null)
-    				itemErrors = new ArrayList<>();
-    			
-    			itemErrors.add(error.getDefaultMessage());
-    			errorMap.put(key, itemErrors);
-    		});
-    		model.addAllAttributes(errorMap);
-    		
+    		model.addAllAttributes(errorHandler.mapErrors(errors));
     		
     		return "main";
     	}
@@ -78,7 +60,8 @@ public class LibraryController {
     	System.out.println(bookInfo);
     	
     	Book newBook = new Book(bookInfo.getIsbn(), bookInfo.getTitle());
-    	library.add(newBook);
+    	// library.add(newBook);
+    	bookService.save(newBook);
     	
     	return "redirect:/all";
     }
@@ -86,7 +69,8 @@ public class LibraryController {
     @PostMapping("/update")
     public String updateBook(@ModelAttribute SaveBookDTO bookInfo) {
     	
-    	Book book = library.stream().filter(b -> b.getIsbn().equals(bookInfo.getIsbn())).findFirst().orElse(null);
+    	// Book book = library.stream().filter(b -> b.getIsbn().equals(bookInfo.getIsbn())).findFirst().orElse(null);
+    	Book book = bookService.findOneById(bookInfo.getIsbn());
     	
     	if (book != null) {
     		book.setTitle(bookInfo.getTitle());
@@ -106,7 +90,7 @@ public class LibraryController {
     
     @GetMapping("/all")
     public String getBookList(Model model) {
-    	model.addAttribute("books", library);
+    	model.addAttribute("books", bookService.findAll());
     	return "book-list";
     }
     
@@ -116,7 +100,8 @@ public class LibraryController {
     	model.addAttribute("time", time);
     	
     	Book defaultBook = new Book("843760494X", "Cien Años de Soledad");
-    	Book book = library.stream().filter(b -> b.getIsbn().equals(isbn)).findFirst().orElse(defaultBook);
+    	// Book book = library.stream().filter(b -> b.getIsbn().equals(isbn)).findFirst().orElse(defaultBook);
+    	Book book = bookService.findOneById(isbn);
     	
     	model.addAttribute("bookTitle", book.getTitle());
     	
