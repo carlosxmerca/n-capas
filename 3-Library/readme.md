@@ -422,7 +422,7 @@ public class LibraryController {
         <label for="owner-field">
         Owner:
         <input type="text" name="owner" id="owner-field" required>
-            {{#owner}}
+        {{#owner}}
             <p class="err">{{ . }}</p>
         {{/owner}}
         </label>
