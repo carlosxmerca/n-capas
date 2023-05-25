@@ -4,11 +4,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.models.dtos.users.RegisterUserDTO;
 
 @RestController
 @RequestMapping("/users")
@@ -16,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 	
 	@PostMapping("")
-	public ResponseEntity<?> register() {
+	public ResponseEntity<?> register(@ModelAttribute RegisterUserDTO data) {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	

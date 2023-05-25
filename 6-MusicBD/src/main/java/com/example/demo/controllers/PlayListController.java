@@ -5,10 +5,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.models.dtos.playlists.SavePlayListDTO;
+import com.example.demo.models.dtos.songs.UpdateSongDTO;
 
 @RestController
 @RequestMapping("/play-lists")
@@ -26,16 +30,16 @@ public class PlayListController {
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<?> createPlayList() {
+	public ResponseEntity<?> createPlayList(@ModelAttribute SavePlayListDTO data) {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@PutMapping("")
-	public ResponseEntity<?> updatePlayList() {
+	public ResponseEntity<?> updatePlayList(@ModelAttribute UpdateSongDTO data) {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@DeleteMapping("")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletePlayList() {
 		return new ResponseEntity<>("deleted play list", HttpStatus.OK);
 	}
