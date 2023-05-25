@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.models.dtos.users.ChangePasswordDTO;
 import com.example.demo.models.dtos.users.RegisterUserDTO;
 import com.example.demo.models.dtos.users.UpdateUserDTO;
 
@@ -40,7 +41,7 @@ public class UserController {
 	}
 	
 	@PatchMapping("/change-password")
-	public ResponseEntity<?> changePassword() {
+	public ResponseEntity<?> changePassword(@ModelAttribute ChangePasswordDTO data) {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

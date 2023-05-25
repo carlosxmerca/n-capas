@@ -27,8 +27,9 @@ public class Playlist {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "user_code")
-    private UUID userCode;
+    @ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_code", nullable = true)
+    private User user;
     
     @OneToMany(mappedBy = "playList", fetch = FetchType.LAZY)
 	@JsonIgnore
