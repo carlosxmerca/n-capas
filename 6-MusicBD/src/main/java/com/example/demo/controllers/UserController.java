@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.models.dtos.users.RegisterUserDTO;
+import com.example.demo.models.dtos.users.UpdateUserDTO;
 
 @RestController
 @RequestMapping("/users")
@@ -34,7 +35,7 @@ public class UserController {
 	}
 	
 	@PutMapping("")
-	public ResponseEntity<?> updateUser() {
+	public ResponseEntity<?> updateUser(@ModelAttribute UpdateUserDTO data) {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
