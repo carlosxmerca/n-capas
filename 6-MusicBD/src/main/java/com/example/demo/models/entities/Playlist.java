@@ -35,10 +35,10 @@ public class Playlist {
 	@JsonIgnore
 	private List<SongXPlaylist> songxplaylist;
 
-    public Playlist(String title, String description, UUID userCode) {
+    public Playlist(String title, String description, User user) {
         super();
         this.title = title;
         this.description = description;
-        this.userCode = userCode;
+        this.user = user;
     }
 }
