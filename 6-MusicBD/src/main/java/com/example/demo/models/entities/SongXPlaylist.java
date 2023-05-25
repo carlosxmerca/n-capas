@@ -16,11 +16,21 @@ public class SongXPlaylist {
     @Column(name = "code")
     private UUID code;
 
-    private UUID playlist_code;
+    @ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "song_code", nullable = true)
+    private Song song;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "playlist_code", nullable = true)
+    private Playlist playList;
+    
+    @Column(name = "date_added", nullable = true)
     private Timestamp date_added;
 
-    public SongXPlaylist(UUID playlist_code, Timestamp date_added) {
-        this.playlist_code = playlist_code;
-        this.date_added = date_added;
-    }
+	public SongXPlaylist(Song song, Playlist playList) {
+		super();
+		this.song = song;
+		this.playList = playList;
+	}
+    
 }
