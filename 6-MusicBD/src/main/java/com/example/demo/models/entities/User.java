@@ -26,10 +26,18 @@ public class User {
 	@Column(name = "username", unique = true)
     private String username;
 	
+
 	@Column(name = "email", unique = true)
     private String email;
 	
 	@Column(name = "password")
 	@JsonIgnore
     private String password;
+	
+	public User(String username, String email, String password) {
+		super();
+		this.username = username;
+		this.email = email;
+		this.password = password;
+	}
 }
