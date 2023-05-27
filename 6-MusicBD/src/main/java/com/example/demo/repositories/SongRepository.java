@@ -7,5 +7,5 @@ import org.springframework.data.repository.ListCrudRepository;
 import com.example.demo.models.entities.Song;
 
 public interface SongRepository extends ListCrudRepository<Song, UUID> {
-
+	Song findOneByTitle(String title); 
 }

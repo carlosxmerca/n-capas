@@ -10,8 +10,8 @@ public class UpdateSongDTO {
 	@NotBlank(message = "code is required")
 	private String code;
 	
-	@NotBlank(message = "name is required")
-	private String name;
+	@NotBlank(message = "title is required")
+	private String title;
 	
 	@NotBlank(message = "duration is required")
 	private int duration;
