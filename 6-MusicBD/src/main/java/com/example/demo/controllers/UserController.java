@@ -37,7 +37,8 @@ public class UserController {
 	private RequestErrorHandler errorHandler;
 	
 	@PostMapping("")
-	public ResponseEntity<?> register(@ModelAttribute @Valid RegisterUserDTO data, BindingResult validations) {
+	public ResponseEntity<?> register(
+			@ModelAttribute @Valid RegisterUserDTO data, BindingResult validations) {
 		if (validations.hasErrors()) {
 			return new ResponseEntity<>(
 					errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
@@ -68,12 +69,24 @@ public class UserController {
 	}
 	
 	@PutMapping("")
-	public ResponseEntity<?> updateUser(@ModelAttribute UpdateUserDTO data) {
+	public ResponseEntity<?> updateUser(
+			@ModelAttribute @Valid UpdateUserDTO data, BindingResult validations) {
+		if (validations.hasErrors()) {
+			return new ResponseEntity<>(
+					errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
+		}
+		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PatchMapping("/change-password")
-	public ResponseEntity<?> changePassword(@ModelAttribute ChangePasswordDTO data) {
+	public ResponseEntity<?> changePassword(
+			@ModelAttribute @Valid ChangePasswordDTO data, BindingResult validations) {
+		if (validations.hasErrors()) {
+			return new ResponseEntity<>(
+					errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
+		}
+		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
