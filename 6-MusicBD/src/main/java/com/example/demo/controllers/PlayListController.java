@@ -1,7 +1,9 @@
 package com.example.demo.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.models.dtos.playlists.SavePlayListDTO;
 import com.example.demo.models.dtos.songs.UpdateSongDTO;
+import com.example.demo.utils.RequestErrorHandler;
 
 @RestController
 @RequestMapping("/play-lists")
 @CrossOrigin("*")
 public class PlayListController {
+	
+	@Autowired
+	private RequestErrorHandler errorHandler;
 	
 	@GetMapping("")
 	public ResponseEntity<?> getPlayLists() {
@@ -30,12 +36,24 @@ public class PlayListController {
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<?> createPlayList(@ModelAttribute SavePlayListDTO data) {
+	public ResponseEntity<?> createPlayList(
+			@ModelAttribute SavePlayListDTO data, BindingResult validations) {
+		if (validations.hasErrors()) {
+			return new ResponseEntity<>(
+					errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
+		}
+		
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@PutMapping("")
-	public ResponseEntity<?> updatePlayList(@ModelAttribute UpdateSongDTO data) {
+	public ResponseEntity<?> updatePlayList(
+			@ModelAttribute UpdateSongDTO data, BindingResult validations) {
+		if (validations.hasErrors()) {
+			return new ResponseEntity<>(
+					errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
+		}
+		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
