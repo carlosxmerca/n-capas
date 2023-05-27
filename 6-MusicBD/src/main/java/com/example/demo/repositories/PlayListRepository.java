@@ -1,5 +1,11 @@
 package com.example.demo.repositories;
 
-public interface PlayListRepository {
+import java.util.UUID;
+
+import org.springframework.data.repository.ListCrudRepository;
+
+import com.example.demo.models.entities.Playlist;
+
+public interface PlayListRepository extends ListCrudRepository<Playlist, UUID> {
 
 }
