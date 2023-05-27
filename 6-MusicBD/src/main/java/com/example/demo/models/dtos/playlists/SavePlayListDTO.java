@@ -11,7 +11,7 @@ public class SavePlayListDTO {
 	private String title;
 	
 	@NotBlank(message = "description is required")
-	private int description;
+	private String description;
 	
 	@NotBlank(message = "user code is required")
 	private String userCode;
