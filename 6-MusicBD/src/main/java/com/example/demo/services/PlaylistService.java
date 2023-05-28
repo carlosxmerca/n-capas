@@ -3,7 +3,6 @@ package com.example.demo.services;
 import com.example.demo.models.dtos.playlists.SavePlayListDTO;
 import com.example.demo.models.dtos.playlists.UpdatePlayListDTO;
 import com.example.demo.models.entities.Playlist;
-import com.example.demo.models.entities.Song;
 import com.example.demo.models.entities.User;
 
 import java.util.List;

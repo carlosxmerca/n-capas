@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.models.dtos.playlists.SavePlayListDTO;
 import com.example.demo.models.dtos.playlists.UpdatePlayListDTO;
 import com.example.demo.models.dtos.response.MessageDTO;
-import com.example.demo.models.dtos.songs.UpdateSongDTO;
 import com.example.demo.models.entities.Playlist;
 import com.example.demo.models.entities.User;
 import com.example.demo.services.PlaylistService;
