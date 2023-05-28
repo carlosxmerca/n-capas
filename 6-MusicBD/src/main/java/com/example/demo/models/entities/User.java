@@ -20,7 +20,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @ToString(exclude = {"playLists"})
 public class User {
 	@Id
@@ -35,7 +35,7 @@ public class User {
 	@Column(name = "email", unique = true)
     private String email;
 	
-	@Column(name = "password")
+	@Column(name = "pass")
 	@JsonIgnore
     private String password;
 	
