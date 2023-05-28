@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.models.dtos.playlists.SavePlayListDTO;
 import com.example.demo.models.dtos.playlists.UpdatePlayListDTO;
 import com.example.demo.models.dtos.response.MessageDTO;
+import com.example.demo.models.dtos.response.PlayListWithSongsDTO;
+import com.example.demo.models.dtos.songxplaylist.SaveSongXPlaylistDTO;
 import com.example.demo.models.entities.Playlist;
+import com.example.demo.models.entities.Song;
+import com.example.demo.models.entities.SongXPlaylist;
 import com.example.demo.models.entities.User;
 import com.example.demo.services.PlaylistService;
+import com.example.demo.services.SongService;
+import com.example.demo.services.SongXPlaylistService;
 import com.example.demo.services.UserService;
 import com.example.demo.utils.RequestErrorHandler;
 
@@ -34,6 +41,10 @@ public class PlayListController {
 	
 	@Autowired
 	private PlaylistService playlistService;
+	@Autowired
+	private SongService songService;
+	@Autowired
+	private SongXPlaylistService songxPlaylistService;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -55,6 +66,25 @@ public class PlayListController {
 		return new ResponseEntity<>(playlist, HttpStatus.OK);
 	}
 	
+	@GetMapping("/{id}/songs")
+	public ResponseEntity<?> getPlayListSongs(@PathVariable String id) {
+		Playlist playlist = playlistService.findOneById(id);
+		
+		if (playlist == null)
+			return new ResponseEntity<>(new MessageDTO("playlist not found"), HttpStatus.NOT_FOUND);
+		
+		// Get relations
+		List<SongXPlaylist> relations = playlist.getSongxplaylist();
+		
+		// Create songs list
+		List<Song> songs = relations.stream().map(relation -> {
+			return relation.getSong();
+		}).collect(Collectors.toList());
+		
+		PlayListWithSongsDTO response = new PlayListWithSongsDTO(playlist, songs);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
 	@PostMapping("")
 	public ResponseEntity<?> createPlayList(
 			@ModelAttribute @Valid SavePlayListDTO data, BindingResult validations) {
@@ -70,6 +100,30 @@ public class PlayListController {
 		try {
 			playlistService.save(data, user);
 			return new ResponseEntity<>(new MessageDTO("playlist created"), HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping("add-song")
+	public ResponseEntity<?> addSongToPlaylist(
+			@ModelAttribute @Valid SaveSongXPlaylistDTO data, BindingResult validations) {
+		if (validations.hasErrors()) {
+			return new ResponseEntity<>(
+					errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
+		}
+		
+		Song song = songService.findOneById(data.getSongCode());
+		if (song == null)
+			return new ResponseEntity<>(new MessageDTO("song not found"), HttpStatus.NOT_FOUND);
+		
+		Playlist playlist = playlistService.findOneById(data.getPlaylistCode());
+		if (playlist == null)
+			return new ResponseEntity<>(new MessageDTO("playlist not found"), HttpStatus.NOT_FOUND);
+			
+		try {
+			songxPlaylistService.save(song, playlist);
+			return new ResponseEntity<>(new MessageDTO("song added to playlist"), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

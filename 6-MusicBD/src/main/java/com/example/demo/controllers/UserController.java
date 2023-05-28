@@ -20,6 +20,7 @@ import com.example.demo.models.dtos.response.MessageDTO;
 import com.example.demo.models.dtos.users.ChangePasswordDTO;
 import com.example.demo.models.dtos.users.RegisterUserDTO;
 import com.example.demo.models.dtos.users.UpdateUserDTO;
+import com.example.demo.models.entities.Playlist;
 import com.example.demo.models.entities.User;
 import com.example.demo.services.UserService;
 import com.example.demo.utils.RequestErrorHandler;
@@ -66,6 +67,17 @@ public class UserController {
 			return new ResponseEntity<>(new MessageDTO("user not found"), HttpStatus.NOT_FOUND);
 		
 		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/play-lists")
+	public ResponseEntity<?> getUserPlayLists(@PathVariable String id) {
+		User user = userService.findOneById(id);
+		
+		if (user == null)
+			return new ResponseEntity<>(new MessageDTO("user not found"), HttpStatus.NOT_FOUND);
+		
+		List<Playlist> playlists = user.getPlayLists();
+		return new ResponseEntity<>(playlists, HttpStatus.OK);
 	}
 	
 	@PutMapping("")
