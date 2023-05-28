@@ -14,6 +14,6 @@ public class UpdatePlayListDTO {
 	private String title;
 	
 	@NotBlank(message = "description is required")
-	private int description;
+	private String description;
 
 }
