@@ -20,4 +20,9 @@ public class SongXPlaylistServiceImpl implements SongXPlaylistService {
 		repository.save(relation);
 	}
 
+	@Override
+	public void delete(String songCode, String PlaylistCode) throws Exception {
+		// TODO : implement delete song from play-list service
+	}
+
 }

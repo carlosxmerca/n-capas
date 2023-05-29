@@ -88,6 +88,8 @@ public class UserController {
 					errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
 		}
 		
+		// TODO: complete update user end point
+		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
@@ -98,6 +100,8 @@ public class UserController {
 			return new ResponseEntity<>(
 					errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
 		}
+		
+		// TODO: complete change password end point
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

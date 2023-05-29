@@ -129,6 +129,12 @@ public class PlayListController {
 		}
 	}
 	
+	@PostMapping("remove-song")
+	public ResponseEntity<?> removeSongFromPlaylist() {
+		// TODO: complete end point and functions to remove song from play-list
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 	@PutMapping("")
 	public ResponseEntity<?> updatePlayList(
 			@ModelAttribute @Valid UpdatePlayListDTO data, BindingResult validations) {
