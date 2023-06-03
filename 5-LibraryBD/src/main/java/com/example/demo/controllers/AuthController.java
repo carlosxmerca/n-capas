@@ -49,12 +49,16 @@ public class AuthController {
 					errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
 		}
 		
-		User user = authService.logIn(data);
-		
+		// User user = authService.logIn(data);
+		User user = userService.findOneById(data.getId());
 		if (user == null)
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		else 
-			return new ResponseEntity<>("logged in", HttpStatus.OK);
+			return new ResponseEntity<>("invalid credentials", HttpStatus.NOT_FOUND);
+		
+		Boolean validPassword = userService.comparePassword(data.getPassword(), user.getPassword());
+		if (!validPassword)
+			return new ResponseEntity<>("invalid credentials", HttpStatus.UNAUTHORIZED);
+		
+		return new ResponseEntity<>("logged in", HttpStatus.OK);
 	}
 	
 	@PostMapping("")

@@ -11,4 +11,6 @@ public interface UserServices {
 	User findOneById(String id);
 	void register(RegisterUserDTO data) throws Exception;
 	void update(UpdateUserDTO data) throws Exception;
+	
+	Boolean comparePassword(String toCompare, String actual);
 }

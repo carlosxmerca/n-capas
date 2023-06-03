@@ -3,6 +3,7 @@ package com.example.demo.services.implementations;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.models.dtos.RegisterUserDTO;
@@ -16,6 +17,8 @@ import jakarta.transaction.Transactional;
 @Service
 public class UserServiceImpl implements UserServices {
 	
+	@Autowired
+	public PasswordEncoder passwordEncoder;
 	@Autowired
 	private UserRepository userRepository;
 
@@ -32,7 +35,12 @@ public class UserServiceImpl implements UserServices {
 	@Override
 	@Transactional(rollbackOn = Exception.class)
 	public void register(RegisterUserDTO data) throws Exception {
-		User newUser = new User(data.getUsername(), data.getEmail(), data.getPassword(), data.getName());
+		User newUser = new User(
+				data.getUsername(), 
+				data.getEmail(), 
+				passwordEncoder.encode(data.getPassword()), 
+				data.getName());
+		
 		userRepository.save(newUser);
 	}
 
@@ -45,6 +53,11 @@ public class UserServiceImpl implements UserServices {
 		
 		user.setName(data.getName());
 		userRepository.save(user);
+	}
+
+	@Override
+	public Boolean comparePassword(String toCompare, String actual) {
+		return passwordEncoder.matches(toCompare, actual);
 	}
 
 }
