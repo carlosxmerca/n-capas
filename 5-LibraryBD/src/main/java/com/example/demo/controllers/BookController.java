@@ -2,16 +2,12 @@ package com.example.demo.controllers;
 
 import java.util.List;
 
+import com.example.demo.models.dtos.PageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.models.dtos.BookLoanDTO;
 import com.example.demo.models.dtos.SaveBookDTO;
@@ -55,9 +51,20 @@ public class BookController {
 	private CategoryServices categoryService;
 	
 	@GetMapping("/collection")
-	private ResponseEntity<?> findAllBook() {
-		List<Book> books = bookService.findAll();
-		return new ResponseEntity<>(books, HttpStatus.OK);
+	private ResponseEntity<?> findAllBook(
+			@RequestParam(defaultValue = "") String title,
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size
+	) {
+		Page<Book> books = bookService.findAll(title, page, size);
+		PageDTO<Book> response = new PageDTO<>(
+				books.getContent(),
+				books.getNumber(),
+				books.getSize(),
+				books.getTotalElements(),
+				books.getTotalPages());
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	@GetMapping("/collection/{cat}")
